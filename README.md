@@ -1,11 +1,11 @@
 # json-in-log README
 
-解析log中的json字符串，并在小窗中显示
-
+解析log中的json字符串，并在小窗中显示,去[下载](https://marketplace.visualstudio.com/items?itemName=imgss.json-in-log)
 ## Features
 
 一个log中的json有时候很长：
-```
+
+```log
 2020-05-31 04:56:55:204 [verbose] cmd "heartbeat" with payload: {"cmd":"heartbeat","id":17815201001}
 ```
 这个插件可以在你hover到json上时，显示格式化后的json
@@ -16,14 +16,7 @@ If you have any requirements or dependencies, add a section describing those and
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
 
 ## Known Issues
 

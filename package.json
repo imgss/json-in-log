@@ -2,18 +2,23 @@
 	"name": "json-in-log",
 	"displayName": "json-in-log",
 	"description": "preview json in log",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.47.0"
 	},
+	"publisher": "imgss",
 	"categories": [
 		"Other"
 	],
+	"repository": {
+		"url": "https://github.com/imgss/json-in-log"
+	},
 	"activationEvents": [
 		"*",	
         "onCommand:json-in-log.helloWorld"
 	],
 	"main": "./out/extension.js",
+	"icon": "img/logo.png",
 	"contributes": {
 		"commands": [
 			{
