@@ -8,8 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 
-	const regexDec = /\{.+\}/;
-
+	const regexDec = /(\{.+\})|(\[\{.+?\}\])/;
 	let hover = vscode.languages.registerHoverProvider({ scheme: '*', language: 'log' }, {
 		provideHover(document :vscode.TextDocument, position: vscode.Position) {
 			const {line, character} = position;
@@ -23,6 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 					return null;
 				}
 				try {
+					console.log(json);
 					const obj = JSON.parse(json);
 					const fmtJson = JSON.stringify(obj, null, 2);
 					return new vscode.Hover({
