@@ -8,49 +8,20 @@
 ```log
 2020-05-31 04:56:55:204 [verbose] cmd "heartbeat" with payload: {"cmd":"heartbeat","id":17815201001}
 ```
-这个插件可以在你hover到json上时，显示格式化后的json
+这个插件可以在你 hover 到 json字符 上时，在小窗显示格式化后的 json
 
-## Requirements
+![example](./img/example.gif)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## File associations
+To make VS Code treat other file extensions than the default .log as log files, add the following to the user settings:
 
-## Extension Settings
+```json
+"files.associations": {
+    "*.log.*": "log"
+},
+```
 
-
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+The example above associates extensions such as .log.1 and .log.2 with the Log File highlighter extension.
 
 **Enjoy!**
+
