@@ -23,5 +23,11 @@ To make VS Code treat other file extensions than the default .log as log files, 
 
 The example above associates extensions such as .log.1 and .log.2 with the Log File highlighter extension.
 
+## Changelog
+
+v0.1.2
+
+- 支持在配置中设置`forceWordWrap`来强制在json中对`\n`进行换行
+
 **Enjoy!**
 

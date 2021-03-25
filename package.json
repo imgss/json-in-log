@@ -2,7 +2,7 @@
 	"name": "json-in-log",
 	"displayName": "json-in-log",
 	"description": "preview json in log",
-	"version": "0.0.4",
+	"version": "0.1.2",
 	"engines": {
 		"vscode": "^1.20.0"
 	},
@@ -45,7 +45,7 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.47.0",
+		"@types/vscode": "^1.20.0",
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
 		"@types/node": "^13.11.0",
