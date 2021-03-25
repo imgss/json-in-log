@@ -25,7 +25,16 @@
 				"command": "json-in-log.helloWorld",
 				"title": "Hello World"
 			}
-		]
+		],
+		"configuration": {
+			"properties": {
+				"json-in-log.forceWordWrap": {
+					"type": "boolean",
+					"default": false,
+					"description": "强制对json中的\\n进行换行"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
