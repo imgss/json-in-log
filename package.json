@@ -2,7 +2,7 @@
 	"name": "json-in-log",
 	"displayName": "json-in-log",
 	"description": "preview json in log",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"engines": {
 		"vscode": "^1.20.0"
 	},
