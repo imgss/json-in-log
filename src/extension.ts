@@ -21,10 +21,16 @@ export function activate(context: vscode.ExtensionContext) {
 				if (<number>match.index >= character) {
 					return null;
 				}
+
 				try {
-					console.log(json);
+					console.log('json:', json);
 					const obj = JSON.parse(json);
-					const fmtJson = JSON.stringify(obj, null, 2);
+					let fmtJson = JSON.stringify(obj, null, 2);
+          const forceWrap = vscode.workspace.getConfiguration('json-in-log').get('forceWordWrap');
+          if (forceWrap) {
+            fmtJson = fmtJson.replace(/\\n/g, '\n');
+          }
+
 					return new vscode.Hover({
 						language: 'json',
 						value: fmtJson
