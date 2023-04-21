@@ -2,7 +2,7 @@
 	"name": "json-in-log",
 	"displayName": "json-in-log",
 	"description": "preview json in log",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"engines": {
 		"vscode": "^1.20.0"
 	},
@@ -30,6 +30,26 @@
 			"title": "Preview Json In Log",
 			"type": "object",
 			"properties": {
+				"json-in-log.languages": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"log"
+					],
+					"markdownDescription": "为其他语言启用本功能"
+				},
+				"json-in-log.globPatterns": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"**/*.log"
+					],
+					"markdownDescription": "配置 [Glob 模式](https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options) 来为其他类型文件启用本功能"
+				},
 				"json-in-log.useEscapes": {
 					"type": "boolean",
 					"default": false,

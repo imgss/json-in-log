@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
+const PACKAGE_NAME = 'json-in-log';
+
 type EscapeMap = Record<string, string>;
 
 const regexEscape = /\/(?<regex>.*)\/(?<flags>d?g?i?m?s?u?y?)/;
@@ -12,6 +14,7 @@ const defaultEscapes: EscapeMap = {
 	'\\\\t': '\t',
 	保护双反斜杠: '\\\\',
 };
+let hover: vscode.Disposable | undefined;
 
 function escape(str: string, escapesMap = defaultEscapes) {
 	for (const key in escapesMap) {
@@ -42,48 +45,84 @@ function escape(str: string, escapesMap = defaultEscapes) {
 export function activate(context: vscode.ExtensionContext) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 
-	const regexDec = /(\{.+\})|(\[\{.+?\}\])/;
-	const hover = vscode.languages.registerHoverProvider(
-		{ scheme: '*', language: 'log' },
-		{
-			provideHover(document: vscode.TextDocument, position: vscode.Position) {
-				const { line, character } = position;
-				const { text } = document.lineAt(line);
+	context.subscriptions.push({
+		dispose: () => {
+			hover?.dispose();
+		},
+	});
+	enableHover(context, getFilters());
 
-				const match = text.match(regexDec);
-				if (match) {
-					const json = match[0];
-
-					if ((match.index as number) >= character) {
-						return null;
-					}
-
-					try {
-						console.log('json:', json);
-						const obj = JSON.parse(json) as unknown;
-						let fmtJson = JSON.stringify(obj, null, 2);
-						const useEscapes = vscode.workspace
-							.getConfiguration('json-in-log')
-							.get<boolean>('useEscapes', false);
-						const escapesMap = vscode.workspace.getConfiguration('json-in-log').get<EscapeMap>('escapes');
-						if (useEscapes) {
-							fmtJson = escape(fmtJson, escapesMap);
-						}
-
-						return new vscode.Hover({
-							language: 'json',
-							value: fmtJson,
-						});
-					} catch (err) {
-						console.error(json, err);
-					}
-				}
-				return null;
-			},
+	vscode.workspace.onDidChangeConfiguration((event) => {
+		if (
+			event.affectsConfiguration(`${PACKAGE_NAME}.languages`) ||
+			event.affectsConfiguration(`${PACKAGE_NAME}.globPatterns`)
+		) {
+			hover?.dispose();
+			enableHover(context, getFilters());
 		}
-	);
+	});
+}
 
-	context.subscriptions.push(hover);
+function getFilters() {
+	const filters: vscode.DocumentFilter[] = [];
+	const globPattern = vscode.workspace.getConfiguration(PACKAGE_NAME).get<string[]>('globPatterns', []);
+	globPattern.map((pattern) =>
+		filters.push({
+			pattern: pattern,
+		})
+	);
+	const langs = vscode.workspace.getConfiguration(PACKAGE_NAME).get<string[]>('languages', []);
+	langs.map((lang) =>
+		filters.push({
+			language: lang,
+		})
+	);
+	if (filters.length === 0) {
+		filters.push({ language: 'log' });
+	}
+	return filters;
+}
+
+const regexDec = /(\{.+\})|(\[\{.+?\}\])/;
+function enableHover(context: vscode.ExtensionContext, filters: vscode.DocumentFilter[]) {
+	hover = vscode.languages.registerHoverProvider(filters, {
+		provideHover(document: vscode.TextDocument, position: vscode.Position) {
+			const { line, character } = position;
+			const { text } = document.lineAt(line);
+
+			const match = text.match(regexDec);
+			if (match) {
+				const json = match[0];
+
+				if ((match.index as number) >= character) {
+					return null;
+				}
+
+				try {
+					console.log('json:', json);
+					const obj = JSON.parse(json) as unknown;
+					let fmtJson = JSON.stringify(obj, null, 2);
+					const useEscapes = vscode.workspace
+						.getConfiguration(PACKAGE_NAME)
+						.get<boolean>('useEscapes', false);
+					const escapesMap = vscode.workspace.getConfiguration(PACKAGE_NAME).get<EscapeMap>('escapes');
+					if (useEscapes) {
+						fmtJson = escape(fmtJson, escapesMap);
+					}
+
+					return new vscode.Hover({
+						language: 'json',
+						value: fmtJson,
+					});
+				} catch (err) {
+					console.error(json, err);
+				}
+			}
+			return null;
+		},
+	});
+
+	return hover;
 }
 
 // this method is called when your extension is deactivated
